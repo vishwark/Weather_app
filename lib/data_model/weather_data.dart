@@ -1,6 +1,6 @@
 class WeatherData {
-  final double coordLon;
-  final double coordLat;
+  final String coordLon;
+  final String coordLat;
   final int weatherId;
   final String weatherMain;
   final String weatherDescription;
@@ -70,8 +70,8 @@ class WeatherData {
     print('Received JSON: $json');
     print('Name field: ${json['name']}');
     return WeatherData(
-      coordLon: (json['coord']['lon'] ?? 0).toDouble(),
-      coordLat: (json['coord']['lat'] ?? 0).toDouble(),
+      coordLon: json['coord']['lon'].toString(),
+      coordLat: json['coord']['lat'].toString(),
       weatherId: weather['id'] ?? 0,
       weatherMain: weather['main'] ?? '',
       weatherDescription: weather['description'] ?? '',

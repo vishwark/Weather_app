@@ -46,6 +46,9 @@ class FavoritesBloc extends Bloc<FavoritesEvents, FavoritesState> {
         emit(FavoritesStateLoading());
         List<CityGioOrdinates> cities =
             await CityPreferences().deleteCity(event.city);
+        if (cities.length == 0) {
+          return emit(FavoritesStateEmpty());
+        }
         var weatherData =
             await ApiRepository().fetchFavoriteCitiesWeatherData(cities);
         emit(FavoritesStateLoaded(weatherData));
@@ -63,6 +66,8 @@ class FavoritesBloc extends Bloc<FavoritesEvents, FavoritesState> {
           await ApiRepository().fetchFavoriteCitiesWeatherData(cities);
       _lastLoadedState = FavoritesStateLoaded(weatherData);
       emit(_lastLoadedState!);
+    } else {
+      emit(FavoritesStateEmpty());
     }
   }
 }

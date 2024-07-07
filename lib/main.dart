@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
       ),
       scaffoldBackgroundColor: Colors.white,
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white, // Set app bar background color
+        backgroundColor:
+            Color.fromARGB(255, 122, 208, 125), // Set app bar background color
         foregroundColor: Colors.black, // Set app bar text/icon color
       ),
       fontFamily: 'Roboto', // Example font family

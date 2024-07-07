@@ -17,6 +17,8 @@ class FavoritesStateDeleted extends FavoritesState {}
 
 class FavoritesStateDuplicateEntry extends FavoritesState {}
 
+class FavoritesStateEmpty extends FavoritesState {}
+
 class FavoritesStateLoaded extends FavoritesState {
   final List<WeatherData> favoritesStateData;
   const FavoritesStateLoaded(this.favoritesStateData);

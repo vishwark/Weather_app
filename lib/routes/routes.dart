@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:weather_app/pages/add-city.dart';
-import 'package:weather_app/pages/air_pollution.dart';
+import 'package:weather_app/pages/air_quality.dart';
 import 'package:weather_app/pages/dashboard.dart';
 
 final GoRouter routes = GoRouter(
-  initialLocation: '/add-city',
+  initialLocation: '/dashboard',
   routes: [
     GoRoute(
       path: '/add-city',

@@ -158,13 +158,15 @@ class _WeatherScreenState extends State<AddCity> {
                           return GestureDetector(
                             onTap: () {
                               final cityCoordinates = CityGioOrdinates(
-                                latitude: city.latitude.toDouble(),
-                                longitude: city.longitude.toDouble(),
+                                latitude: double.parse(
+                                    city.latitude.toStringAsFixed(4)),
+                                longitude: double.parse(
+                                    city.longitude.toStringAsFixed(4)),
                               );
                               BlocProvider.of<FavoritesBloc>(context).add(
                                 saveToFavorites(city: cityCoordinates),
                               );
-                              context.pushNamed('dashboard');
+                              context.go('/dashboard');
                             },
                             child: Card(
                               color: const Color.fromARGB(255, 140, 189, 212),
