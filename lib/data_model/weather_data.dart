@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class WeatherData {
   final String coordLon;
   final String coordLat;
@@ -6,10 +8,10 @@ class WeatherData {
   final String weatherDescription;
   final String weatherIcon;
   final String base;
-  final double mainTemp;
-  final double mainFeelsLike;
-  final double mainTempMin;
-  final double mainTempMax;
+  final String mainTemp;
+  final String mainFeelsLike;
+  final String mainTempMin;
+  final String mainTempMax;
   final int mainPressure;
   final int mainHumidity;
   final int mainSeaLevel;
@@ -18,16 +20,17 @@ class WeatherData {
   final double windSpeed;
   final int windDeg;
   final int cloudsAll;
-  final DateTime dateTime;
+  final String publishedAt;
   final int sysType;
   final int sysId;
   final String sysCountry;
-  final DateTime sysSunrise;
-  final DateTime sysSunset;
+  final String sysSunrise;
+  final String sysSunset;
   final int timezone;
   final int id;
   final String name;
   final int cod;
+  final double windGust;
 
   WeatherData({
     required this.coordLon,
@@ -49,7 +52,7 @@ class WeatherData {
     required this.windSpeed,
     required this.windDeg,
     required this.cloudsAll,
-    required this.dateTime,
+    required this.publishedAt,
     required this.sysType,
     required this.sysId,
     required this.sysCountry,
@@ -59,28 +62,30 @@ class WeatherData {
     required this.id,
     required this.name,
     required this.cod,
+    required this.windGust,
   });
 
   factory WeatherData.fromJson(Map<String, dynamic> json) {
+    final DateFormat formatter = DateFormat('HH:mm a');
     var weatherList = json['weather'] as List;
     var weather = weatherList[0];
-    print("111111111111111-----2");
-    print(json['name']);
-    // Debugging prints
-    print('Received JSON: $json');
-    print('Name field: ${json['name']}');
+
     return WeatherData(
       coordLon: json['coord']['lon'].toString(),
       coordLat: json['coord']['lat'].toString(),
       weatherId: weather['id'] ?? 0,
       weatherMain: weather['main'] ?? '',
       weatherDescription: weather['description'] ?? '',
-      weatherIcon: weather['icon'] ?? '',
+      weatherIcon: 'https://openweathermap.org/img/wn/${weather['icon']}.png',
       base: json['base'] ?? '',
-      mainTemp: (json['main']['temp'] ?? 0).toDouble(),
-      mainFeelsLike: (json['main']['feels_like'] ?? 0).toDouble(),
-      mainTempMin: (json['main']['temp_min'] ?? 0).toDouble(),
-      mainTempMax: (json['main']['temp_max'] ?? 0).toDouble(),
+      mainTemp:
+          '${((json['main']['temp'] ?? 0).toDouble() - 273.15).toStringAsFixed(1)}°C',
+      mainFeelsLike:
+          '${((json['main']['feels_like'] ?? 0).toDouble() - 273.15).toStringAsFixed(1)}°C',
+      mainTempMin:
+          '${((json['main']['temp_min'] ?? 0).toDouble() - 273.15).toStringAsFixed(1)}°C',
+      mainTempMax:
+          '${((json['main']['temp_max'] ?? 0).toDouble() - 273.15).toStringAsFixed(1)}°C',
       mainPressure: json['main']['pressure'] ?? 0,
       mainHumidity: json['main']['humidity'] ?? 0,
       mainSeaLevel: json['main']['sea_level'] ?? 0,
@@ -88,15 +93,17 @@ class WeatherData {
       visibility: json['visibility'] ?? 0,
       windSpeed: (json['wind']['speed'] ?? 0).toDouble(),
       windDeg: json['wind']['deg'] ?? 0,
+      windGust: json['wind']['gust'] ?? 0,
       cloudsAll: json['clouds']['all'] ?? 0,
-      dateTime: DateTime.fromMillisecondsSinceEpoch((json['dt'] ?? 0) * 1000),
+      publishedAt: formatter.format(
+          DateTime.fromMillisecondsSinceEpoch((json['dt'] ?? 0) * 1000)),
       sysType: json['sys']['type'] ?? 0,
       sysId: json['sys']['id'] ?? 0,
       sysCountry: json['sys']['country'] ?? '',
-      sysSunrise: DateTime.fromMillisecondsSinceEpoch(
-          (json['sys']['sunrise'] ?? 0) * 1000),
-      sysSunset: DateTime.fromMillisecondsSinceEpoch(
-          (json['sys']['sunset'] ?? 0) * 1000),
+      sysSunrise: formatter.format(DateTime.fromMillisecondsSinceEpoch(
+          (json['sys']['sunrise'] ?? 0) * 1000)),
+      sysSunset: formatter.format(DateTime.fromMillisecondsSinceEpoch(
+          (json['sys']['sunset'] ?? 0) * 1000)),
       timezone: json['timezone'] ?? 0,
       id: json['id'] ?? 0,
       name: json['name'] ?? '',

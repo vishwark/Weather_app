@@ -15,6 +15,7 @@ class AddCity extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<AddCity> {
+  FocusNode _focusNode = FocusNode();
   final TextEditingController _searchController = TextEditingController();
   Timer? _debounce;
   final List<String> _cities = [
@@ -38,10 +39,18 @@ class _WeatherScreenState extends State<AddCity> {
     }
   }
 
+  void setPopularCity(String city) {
+    _searchController.text = city;
+  }
+
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchChanged);
+    // Use addPostFrameCallback to focus after the widget has been laid out
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(_focusNode);
+    });
   }
 
   @override
@@ -71,29 +80,24 @@ class _WeatherScreenState extends State<AddCity> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
-        ),
         title: TextField(
+          focusNode: _focusNode,
           controller: _searchController,
           decoration: InputDecoration(
-            hintText: 'Search city',
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: Colors.grey[200],
-            prefixIcon: const Icon(Icons.search, color: Colors.grey),
-          ),
+              hintText: 'Search city',
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              fillColor: Colors.grey[200],
+              prefixIcon: const Icon(Icons.search, color: Colors.grey),
+              suffixIcon: GestureDetector(
+                  onTap: () {
+                    _searchController.clear();
+                  },
+                  child: Icon(Icons.cancel, color: Colors.grey))),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text('Cancel', style: TextStyle(color: Colors.blue)),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -115,13 +119,13 @@ class _WeatherScreenState extends State<AddCity> {
                     children: _cities.map((city) {
                       return GestureDetector(
                         onTap: () {
-                          searchThisCity(city);
+                          setPopularCity(city);
                         },
                         child: Chip(
                           label: Text(city),
                           backgroundColor: city == 'Locate'
                               ? Colors.grey[300]
-                              : Colors.grey[200],
+                              : Color.fromARGB(255, 168, 219, 167),
                         ),
                       );
                     }).toList(),
@@ -169,7 +173,7 @@ class _WeatherScreenState extends State<AddCity> {
                               context.go('/dashboard');
                             },
                             child: Card(
-                              color: const Color.fromARGB(255, 140, 189, 212),
+                              color: Color.fromARGB(255, 174, 233, 169),
                               child: ListTile(
                                 title: Text(city.name),
                                 subtitle: Column(

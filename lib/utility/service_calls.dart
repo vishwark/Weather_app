@@ -9,30 +9,38 @@ class WeatherAPI {
   final apiKey = '63771725444d583752367b19b2fc5cc2';
 
   Future<List<dynamic>> searchCity(String city) async {
-    final url =
-        'http://api.openweathermap.org/geo/1.0/direct?q=$city&limit=10&appid=$apiKey';
-    final response = await http.get(Uri.parse(url));
+    try {
+      final url =
+          'http://api.openweathermap.org/geo/1.0/direct?q=$city&limit=10&appid=$apiKey';
+      final response = await http.get(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return data.map((city) => SearchCityData.fromJson(city)).toList();
-    } else {
-      print('Failed to search city!');
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data.map((city) => SearchCityData.fromJson(city)).toList();
+      } else {
+        print('Failed to search city!');
+        return [];
+      }
+    } catch (e) {
+      print('Failed to search city : $e');
       return [];
     }
   }
 
   Future<WeatherData?> fetchWeatherData(double lat, double lon) async {
-    final url =
-        'http://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey';
-    final response = await http.get(Uri.parse(url));
-    print(response);
-    print("weather--data");
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return WeatherData.fromJson(data);
-    } else {
-      print('Failed to fetch weather data');
+    try {
+      final url =
+          'http://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey';
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return WeatherData.fromJson(data);
+      } else {
+        print('Failed to fetch weather data');
+        return null;
+      }
+    } catch (e) {
+      print('Failed to fetch weather data : $e');
       return null;
     }
   }
@@ -42,7 +50,7 @@ class WeatherAPI {
       final url =
           'http://api.openweathermap.org/data/2.5/air_pollution?lat=$lat&lon=$lon&appid=$apiKey';
       final response = await http.get(Uri.parse(url));
-      print(response);
+
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         return AirQualityModel.fromJson(data);

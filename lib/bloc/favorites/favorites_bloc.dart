@@ -9,6 +9,7 @@ import 'package:weather_app/utility/shared_preference/favCities.dart';
 part 'events.dart';
 part 'state.dart';
 
+//for favorite cities weather data
 class FavoritesBloc extends Bloc<FavoritesEvents, FavoritesState> {
   FavoritesStateLoaded? _lastLoadedState;
   FavoritesBloc() : super(FavoritesStateInitial()) {
@@ -18,14 +19,9 @@ class FavoritesBloc extends Bloc<FavoritesEvents, FavoritesState> {
         emit(FavoritesStateLoading());
         List<CityGioOrdinates>? cities =
             await CityPreferences().addCity(event.city);
-        print("11111111111111--23");
-        print(cities);
         if (cities == null) {
           emit(FavoritesStateDuplicateEntry());
-          print("11111111111111-----24");
-          print(_lastLoadedState);
           if (_lastLoadedState != null) {
-            print("11111111111111-----25");
             emit(_lastLoadedState!);
           }
           return;
@@ -57,6 +53,10 @@ class FavoritesBloc extends Bloc<FavoritesEvents, FavoritesState> {
           const FavoritesStateError("Failed to fetch aqi data"),
         );
       }
+    });
+
+    on<reFetchFavotires>((event, emit) {
+      _initializeFavorites();
     });
   }
   Future<void> _initializeFavorites() async {

@@ -30,14 +30,7 @@ class FavotiesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FavoritesBloc, FavoritesState>(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     'Weather Dashboard',
-      //     textAlign: TextAlign.center,
-      //   ),
-      // ),
       listener: (BuildContext context, FavoritesState state) {
-        print("111111111111111111111111111-----listener");
         if (state is FavoritesStateLoaded) {
           noOfCities = state.favoritesStateData.length;
         }
@@ -58,11 +51,9 @@ class FavotiesState extends State<Favorites> {
             ),
           );
         } else if (state is FavoritesStateEmpty) {
-          print("111111111111111111111111111-----empty");
           return context.go("/add-city");
         }
       },
-
       builder: (BuildContext context, FavoritesState state) {
         return Scaffold(
           body: _buildContent(state),

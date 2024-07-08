@@ -15,10 +15,10 @@ class SearchCityData {
 
   factory SearchCityData.fromJson(Map<String, dynamic> json) {
     return SearchCityData(
-      name: json['name'] ?? 'NA',
-      countryCode: json['country'] ?? 'NA',
-      latitude: json['lat'] ?? 0.0,
-      longitude: json['lon'] ?? 0.0,
+      name: json['name'],
+      countryCode: json['country'],
+      latitude: json['lat'],
+      longitude: json['lon'],
       state: json['state'] ?? '',
     );
   }

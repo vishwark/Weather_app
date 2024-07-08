@@ -6,6 +6,7 @@ import 'package:weather_app/utility/api_repository.dart';
 part 'events.dart';
 part 'state.dart';
 
+//for individual city weather data
 class WeatherBloc extends Bloc<WeatherEvents, WeatherState> {
   WeatherBloc() : super(WeatherInitial()) {
     final ApiRepository apiRepository = ApiRepository();
@@ -18,8 +19,9 @@ class WeatherBloc extends Bloc<WeatherEvents, WeatherState> {
           event.longitude,
         );
         emit(WeatherLoaded(data!));
-      } on NetworkError {
-        emit(const WeatherError("Failed to fetch data. is your device online?"));
+      } catch (e) {
+        emit(
+            const WeatherError("Failed to fetch data. is your device online?"));
       }
     });
   }

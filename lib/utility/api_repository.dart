@@ -22,5 +22,3 @@ class ApiRepository {
     return _apiProvider.fetchFavoritesWeatherData(cities);
   }
 }
-
-class NetworkError extends Error {}

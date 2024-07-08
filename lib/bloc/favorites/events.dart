@@ -7,6 +7,8 @@ abstract class FavoritesEvents extends Equatable {
   List<Object> get props => [];
 }
 
+class reFetchFavotires extends FavoritesEvents {}
+
 class saveToFavorites extends FavoritesEvents {
   final CityGioOrdinates city;
 

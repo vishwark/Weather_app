@@ -147,7 +147,7 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
                     'Last updated at : ${formatTimestamp(airQuality.timeStamp)}',
                     style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
                   ),
-                  const SizedBox(height: 600),
+                  const SizedBox(height: 500),
                 ],
               ),
             ),

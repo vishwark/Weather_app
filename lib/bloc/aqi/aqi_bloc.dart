@@ -18,7 +18,7 @@ class AQIBloc extends Bloc<AQIEvents, AQIState> {
           event.longitude,
         );
         emit(AQILoaded(data!));
-      } on NetworkError {
+      } catch (e) {
         emit(
           const AQIError("Failed to fetch aqi data. is your device online?"),
         );
