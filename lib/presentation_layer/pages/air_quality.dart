@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/bloc/aqi/aqi_bloc.dart';
-import 'package:weather_app/data_model/air_pollution_param.dart';
+import 'package:weather_app/business_layer/bloc/aqi/aqi_bloc.dart';
+import 'package:weather_app/data_layer/data_model/air_pollution_param.dart';
 
 class AirQualityScreen extends StatefulWidget {
   final double latitude;

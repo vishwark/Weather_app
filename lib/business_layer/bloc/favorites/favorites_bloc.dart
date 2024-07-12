@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/data_model/gio_coordinates.dart';
-import 'package:weather_app/data_model/weather_data.dart';
-import 'package:weather_app/pages/add-city.dart';
-import 'package:weather_app/utility/api_repository.dart';
+import 'package:weather_app/data_layer/data_model/gio_coordinates.dart';
+import 'package:weather_app/data_layer/data_model/weather_data.dart';
+import 'package:weather_app/presentation_layer/pages/add-city.dart';
+import 'package:weather_app/data_layer/api_repository.dart';
 import 'package:weather_app/utility/shared_preference/favCities.dart';
 
 part 'events.dart';

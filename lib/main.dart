@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/bloc/aqi/aqi_bloc.dart';
-import 'package:weather_app/bloc/favorites/favorites_bloc.dart';
-import 'package:weather_app/bloc/weather/weather_bloc.dart';
-import 'package:weather_app/routes/routes.dart';
+import 'package:weather_app/business_layer/bloc/aqi/aqi_bloc.dart';
+import 'package:weather_app/business_layer/bloc/favorites/favorites_bloc.dart';
+import 'package:weather_app/business_layer/bloc/geoLocation/location_bloc.dart';
+import 'package:weather_app/business_layer/bloc/weather/weather_bloc.dart';
+import 'package:weather_app/presentation_layer/routes/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +37,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<FavoritesBloc>(
           create: (context) => FavoritesBloc(),
-        )
+        ),
+        BlocProvider<LocationBloc>(
+          create: (context) => LocationBloc(),
+        ),
       ],
       child: MaterialApp.router(
         theme: theme,

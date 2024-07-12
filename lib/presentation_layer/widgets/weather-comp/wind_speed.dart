@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
-import 'package:weather_app/widgets/commons/info_column.dart';
+import 'package:weather_app/presentation_layer/widgets/commons/info_column.dart';
 
 class WindCompass extends StatelessWidget {
   final double direction;

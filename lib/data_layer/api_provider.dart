@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:weather_app/data_model/air_pollution_param.dart';
-import 'package:weather_app/data_model/gio_coordinates.dart';
-import 'package:weather_app/data_model/search_city_data.dart';
-import 'package:weather_app/data_model/weather_data.dart';
+import 'package:weather_app/data_layer/data_model/air_pollution_param.dart';
+import 'package:weather_app/data_layer/data_model/gio_coordinates.dart';
+import 'package:weather_app/data_layer/data_model/search_city_data.dart';
+import 'package:weather_app/data_layer/data_model/weather_data.dart';
 
 class WeatherAPI {
   final apiKey = '63771725444d583752367b19b2fc5cc2';

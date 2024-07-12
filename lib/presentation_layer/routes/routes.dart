@@ -1,7 +1,9 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weather_app/pages/add-city.dart';
-import 'package:weather_app/pages/air_quality.dart';
-import 'package:weather_app/pages/dashboard.dart';
+import 'package:weather_app/business_layer/bloc/geoLocation/location_bloc.dart';
+import 'package:weather_app/presentation_layer/pages/add-city.dart';
+import 'package:weather_app/presentation_layer/pages/air_quality.dart';
+import 'package:weather_app/presentation_layer/pages/dashboard.dart';
 
 final GoRouter routes = GoRouter(
   initialLocation: '/dashboard',
@@ -9,6 +11,14 @@ final GoRouter routes = GoRouter(
     GoRoute(
       path: '/add-city',
       name: 'add-city',
+      // builder: (context, state) => MultiBlocProvider(
+      //   providers: [
+      //     BlocProvider<LocationBloc>(
+      //       create: (context)=> LocationBloc()
+      //     )
+      //   ],
+      //   child: AddCity()
+      // ),
       builder: (context, state) => AddCity(),
     ),
     GoRoute(

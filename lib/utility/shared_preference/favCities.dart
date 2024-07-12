@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather_app/data_model/gio_coordinates.dart';
+import 'package:weather_app/data_layer/data_model/gio_coordinates.dart';
 
 class CityPreferences {
   static const String key = 'favorite_cities';

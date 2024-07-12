@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weather_app/bloc/favorites/favorites_bloc.dart';
-import 'package:weather_app/data_model/gio_coordinates.dart';
+import 'package:weather_app/business_layer/bloc/favorites/favorites_bloc.dart';
+import 'package:weather_app/business_layer/bloc/geoLocation/location_bloc.dart';
+import 'package:weather_app/data_layer/data_model/gio_coordinates.dart';
 import 'package:weather_app/utility/countryCodeToName.dart';
-import 'package:weather_app/utility/service_calls.dart';
+import 'package:weather_app/utility/geolocation.dart';
+import 'package:weather_app/data_layer/api_provider.dart';
 
 class AddCity extends StatefulWidget {
   const AddCity({super.key});
@@ -32,15 +35,36 @@ class _WeatherScreenState extends State<AddCity> {
   var searchCities = [];
 
   void searchThisCity(String city) async {
-    searchCities = await WeatherAPI().searchCity(city);
-    if (searchCities.isNotEmpty) {
-      hasSearchResults = true;
-      setState(() {});
+    print("22222222222----function triggred");
+    if (city == 'Locate') {
+      // Position position = await GeolocationUtility().determinePosition();
+      // print(position);
+      // print(position.runtimeType);
+      // addCityToFavorites(position.latitude, position.longitude);
+      print("22222222222----adding event");
+      context.read<LocationBloc>().add(GetLocation());
+    } else {
+      searchCities = await WeatherAPI().searchCity(city);
+      if (searchCities.isNotEmpty) {
+        hasSearchResults = true;
+        setState(() {});
+      }
     }
   }
 
   void setPopularCity(String city) {
     _searchController.text = city;
+  }
+
+  void addCityToFavorites(double latitude, double longitude) {
+    final cityCoordinates = CityGioOrdinates(
+      latitude: double.parse(latitude.toStringAsFixed(4)),
+      longitude: double.parse(longitude.toStringAsFixed(4)),
+    );
+    BlocProvider.of<FavoritesBloc>(context).add(
+      saveToFavorites(city: cityCoordinates),
+    );
+    context.go('/dashboard');
   }
 
   @override
@@ -132,12 +156,17 @@ class _WeatherScreenState extends State<AddCity> {
                   ),
                 ],
               )
-            : BlocListener<FavoritesBloc, FavoritesState>(
+            : BlocListener<LocationBloc, LocationState>(
                 listener: (context, state) {
-                  if (state is FavoritesStateDuplicateEntry) {
+                  print('11111111111111111111 $state');
+                  if (state is FetchingLocation) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('City already exists in favorites')),
+                          content: Text('Fetching location pls wait!')),
+                    );
+                  } else if (state is LocationLoaded) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Location loaded!')),
                     );
                   }
                 },
@@ -161,16 +190,7 @@ class _WeatherScreenState extends State<AddCity> {
                           final city = searchCities[index];
                           return GestureDetector(
                             onTap: () {
-                              final cityCoordinates = CityGioOrdinates(
-                                latitude: double.parse(
-                                    city.latitude.toStringAsFixed(4)),
-                                longitude: double.parse(
-                                    city.longitude.toStringAsFixed(4)),
-                              );
-                              BlocProvider.of<FavoritesBloc>(context).add(
-                                saveToFavorites(city: cityCoordinates),
-                              );
-                              context.go('/dashboard');
+                              addCityToFavorites(city.latitude, city.longitude);
                             },
                             child: Card(
                               color: Color.fromARGB(255, 174, 233, 169),
@@ -182,12 +202,6 @@ class _WeatherScreenState extends State<AddCity> {
                                     Text(city.state),
                                     Text(CountryCodeHelper()
                                         .getCountryName(city.countryCode)),
-                                    Text(
-                                      'Latitude : ${city.latitude.toString()}',
-                                    ),
-                                    Text(
-                                      'Longitude : ${city.longitude.toString()}',
-                                    ),
                                   ],
                                 ),
                               ),

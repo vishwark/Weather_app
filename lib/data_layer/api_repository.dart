@@ -1,7 +1,7 @@
-import 'package:weather_app/data_model/air_pollution_param.dart';
-import 'package:weather_app/data_model/gio_coordinates.dart';
-import 'package:weather_app/data_model/weather_data.dart';
-import 'package:weather_app/utility/service_calls.dart';
+import 'package:weather_app/data_layer/data_model/air_pollution_param.dart';
+import 'package:weather_app/data_layer/data_model/gio_coordinates.dart';
+import 'package:weather_app/data_layer/data_model/weather_data.dart';
+import 'package:weather_app/data_layer/api_provider.dart';
 
 class ApiRepository {
   final _apiProvider = WeatherAPI();

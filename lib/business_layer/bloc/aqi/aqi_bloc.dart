@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/data_model/air_pollution_param.dart';
-import 'package:weather_app/utility/api_repository.dart';
+import 'package:weather_app/data_layer/data_model/air_pollution_param.dart';
+import 'package:weather_app/data_layer/api_repository.dart';
 
 part 'events.dart';
 part 'state.dart';

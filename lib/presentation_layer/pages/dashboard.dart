@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weather_app/bloc/favorites/favorites_bloc.dart';
-import 'package:weather_app/data_model/weather_data.dart';
+import 'package:weather_app/business_layer/bloc/favorites/favorites_bloc.dart';
+import 'package:weather_app/data_layer/data_model/weather_data.dart';
 
-import 'package:weather_app/widgets/weather.dart';
+import 'package:weather_app/presentation_layer/widgets/weather.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -39,6 +39,14 @@ class FavotiesState extends State<Favorites> {
             const SnackBar(
               content: Text(
                 'Your city has been added successfully!',
+              ),
+            ),
+          );
+        } else if (state is FavoritesStateDuplicateEntry) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'City already exist in dashboard!',
               ),
             ),
           );

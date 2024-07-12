@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weather_app/bloc/favorites/favorites_bloc.dart';
-import 'package:weather_app/data_model/gio_coordinates.dart';
-import 'package:weather_app/data_model/weather_data.dart';
-import 'package:weather_app/widgets/commons/info_row.dart';
-import 'package:weather_app/widgets/weather-comp/temperature.dart';
-import 'package:weather_app/widgets/weather-comp/wind_speed.dart';
+import 'package:weather_app/business_layer/bloc/favorites/favorites_bloc.dart';
+import 'package:weather_app/data_layer/data_model/gio_coordinates.dart';
+import 'package:weather_app/data_layer/data_model/weather_data.dart';
+import 'package:weather_app/presentation_layer/widgets/commons/info_row.dart';
+import 'package:weather_app/presentation_layer/widgets/weather-comp/temperature.dart';
+import 'package:weather_app/presentation_layer/widgets/weather-comp/wind_speed.dart';
 
 class WeatherPage extends StatelessWidget {
   WeatherData weatherData;

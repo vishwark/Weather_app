@@ -1,32 +1,58 @@
-// import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
-// class GeolocationUtility {
-//   Future<LocationData?> getLocation() async {
-//     Location location = new Location();
-//     bool serviceEnabled;
-//     PermissionStatus permissionGranted;
-//     LocationData currentPosition;
+class GeolocationUtility {
+  Future<GeolocationResult> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-//     serviceEnabled = await location.serviceEnabled();
-//     if (!serviceEnabled) {
-//       serviceEnabled = await location.requestService();
-//       if (!serviceEnabled) {
-//         //if location service not enabled show proper msg
-//         return null;
-//       }
-//     }
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return GeolocationResult(
+          position: null, status: GeolocationStatus.disabled);
+    }
 
-//     permissionGranted = await location.hasPermission();
-//     if (permissionGranted == PermissionStatus.denied) {
-//       permissionGranted = await location.requestPermission();
-//       if (permissionGranted != PermissionStatus.granted) {
-//         //if app permission not given location show proper msg
-//         return null;
-//       }
-//     }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return GeolocationResult(
+            position: null, status: GeolocationStatus.denied);
+      }
+    }
 
-//     currentPosition = await location.getLocation();
-//     //location service enabled and location permission given return Location data
-//     return currentPosition;
-//   }
-// }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return GeolocationResult(
+          position: null, status: GeolocationStatus.deniedForever);
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    Position position = await Geolocator.getCurrentPosition();
+    return GeolocationResult(
+        position: position, status: GeolocationStatus.granted);
+  }
+}
+
+class GeolocationResult {
+  final Position? position;
+  final GeolocationStatus status;
+
+  GeolocationResult({required this.position, required this.status});
+}
+
+enum GeolocationStatus {
+  granted,
+  denied,
+  deniedForever,
+  disabled,
+}
